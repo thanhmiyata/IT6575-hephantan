@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-deploy
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        env:
+        - name: SERVICE_NAME
+          value: "orders"
+        volumeMounts:
+        - name: html-config
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-config
+        configMap:
+          name: orders-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orders-html
+  namespace: microservices
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Orders Service</title></head>
+    <body>
+      <h1>Orders Microservice</h1>
+      <p>Service: orders</p>
+      <p>Hostname: <script>document.write(location.hostname)</script></p>
+      <p>Timestamp: <script>document.write(new Date().toISOString())</script></p>
+      <div id="orders">
+        <h2>Recent Orders:</h2>
+        <ul>
+          <li>Order #001 - $50 - Pending</li>
+          <li>Order #002 - $75 - Completed</li>
+          <li>Order #003 - $120 - Processing</li>
+        </ul>
+      </div>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-service
+  namespace: microservices
+spec:
+  selector:
+    app: orders
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

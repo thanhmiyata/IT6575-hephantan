@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deploy
+  namespace: microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: users
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        env:
+        - name: SERVICE_NAME
+          value: "users"
+        volumeMounts:
+        - name: html-config
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-config
+        configMap:
+          name: users-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: users-html
+  namespace: microservices
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Users Service</title></head>
+    <body>
+      <h1>Users Microservice</h1>
+      <p>Service: users</p>
+      <p>Hostname: <script>document.write(location.hostname)</script></p>
+      <p>Timestamp: <script>document.write(new Date().toISOString())</script></p>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+  namespace: microservices
+spec:
+  selector:
+    app: users
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

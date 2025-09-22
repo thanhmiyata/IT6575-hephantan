@@ -1,0 +1,36 @@
+2025-09-22 18:54:48,768 - INFO - KVSS Server đã khởi động tại 127.0.0.1:5050
+2025-09-22 19:07:21,231 - INFO - Kết nối mới từ ('127.0.0.1', 59528)
+2025-09-22 19:07:35,348 - INFO - Request từ ('127.0.0.1', 59528): PUT user43 Alice2
+2025-09-22 19:07:35,348 - INFO - Response tới ('127.0.0.1', 59528): 426 UPGRADE_REQUIRED
+2025-09-22 19:08:31,532 - INFO - Request từ ('127.0.0.1', 59528): GET user42
+2025-09-22 19:08:31,532 - INFO - Response tới ('127.0.0.1', 59528): 426 UPGRADE_REQUIRED
+2025-09-22 19:15:49,453 - ERROR - Lỗi khởi động server: [Errno 48] Address already in use
+2025-09-22 19:15:56,463 - INFO - Kết nối mới từ ('127.0.0.1', 60745)
+2025-09-22 19:15:56,463 - INFO - Request từ ('127.0.0.1', 60745): KV/1.0 PUT user42 Alice
+2025-09-22 19:15:56,463 - INFO - Response tới ('127.0.0.1', 60745): 201 CREATED
+2025-09-22 19:15:56,463 - INFO - Request từ ('127.0.0.1', 60745): KV/1.0 GET user42
+2025-09-22 19:15:56,463 - INFO - Response tới ('127.0.0.1', 60745): 200 OK Alice
+2025-09-22 19:15:56,463 - INFO - Request từ ('127.0.0.1', 60745): KV/1.0 STATS
+2025-09-22 19:15:56,463 - INFO - Response tới ('127.0.0.1', 60745): 200 OK keys=1 uptime=1267s served=5
+2025-09-22 19:15:56,463 - INFO - Request từ ('127.0.0.1', 60745): KV/1.0 QUIT
+2025-09-22 19:15:56,463 - INFO - Response tới ('127.0.0.1', 60745): 200 OK bye
+2025-09-22 19:15:56,463 - INFO - Đã đóng kết nối với ('127.0.0.1', 60745)
+2025-09-22 19:22:43,641 - INFO - Request từ ('127.0.0.1', 59528): KV
+2025-09-22 19:22:43,642 - INFO - Response tới ('127.0.0.1', 59528): 400 BAD_REQUEST
+2025-09-22 19:23:57,849 - INFO - Kết nối mới từ ('127.0.0.1', 62028)
+2025-09-22 19:24:17,167 - INFO - Request từ ('127.0.0.1', 59528): KVSS> KV/1.0 GET user42
+2025-09-22 19:24:17,167 - INFO - Response tới ('127.0.0.1', 59528): 426 UPGRADE_REQUIRED
+2025-09-22 19:24:29,274 - INFO - Request từ ('127.0.0.1', 59528): KVSS> KV/1.0
+2025-09-22 19:24:29,275 - INFO - Response tới ('127.0.0.1', 59528): 426 UPGRADE_REQUIRED
+2025-09-22 19:24:43,205 - INFO - Request từ ('127.0.0.1', 59528): KV/1.0 GET user42
+2025-09-22 19:24:43,205 - INFO - Response tới ('127.0.0.1', 59528): 200 OK Alice
+2025-09-22 19:24:50,164 - INFO - Request từ ('127.0.0.1', 62028): KV/1.0 GET user42
+2025-09-22 19:24:50,165 - INFO - Response tới ('127.0.0.1', 62028): 200 OK Alice
+2025-09-22 19:25:06,161 - INFO - Request từ ('127.0.0.1', 62028): KV/1.0 PUT user43 alice2
+2025-09-22 19:25:06,161 - INFO - Response tới ('127.0.0.1', 62028): 201 CREATED
+2025-09-22 19:28:14,134 - INFO - Request từ ('127.0.0.1', 62028): TCP Payload: "KV/1.0 PUT user42 Alice\n"
+2025-09-22 19:28:14,135 - INFO - Response tới ('127.0.0.1', 62028): 426 UPGRADE_REQUIRED
+2025-09-22 19:34:32,526 - INFO - Request từ ('127.0.0.1', 59528): KV/1.0 POTT user42 Alice
+2025-09-22 19:34:32,526 - INFO - Response tới ('127.0.0.1', 59528): 400 BAD_REQUEST
+2025-09-22 21:40:16,670 - INFO - Đã đóng kết nối với ('127.0.0.1', 59528)
+2025-09-22 21:40:19,534 - INFO - Đã đóng kết nối với ('127.0.0.1', 62028)
