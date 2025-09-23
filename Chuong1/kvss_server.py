@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Mini Key-Value Store Service (KVSS) Server
-Tuân thủ Interface Specification KV/1.0
-"""
 
 import socket
 import threading
@@ -14,13 +10,12 @@ class KVSSServer:
     def __init__(self, host='127.0.0.1', port=5050):
         self.host = host
         self.port = port
-        self.store = {}  # Dictionary lưu trữ key-value
+        self.store = {}
         self.stats = {
             'start_time': time.time(),
             'served_requests': 0
         }
         
-        # Thiết lập logging
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
@@ -32,7 +27,6 @@ class KVSSServer:
         self.logger = logging.getLogger(__name__)
         
     def start(self):
-        """Khởi động server TCP"""
         try:
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -45,7 +39,6 @@ class KVSSServer:
                 client_socket, client_address = self.server_socket.accept()
                 self.logger.info(f"Kết nối mới từ {client_address}")
                 
-                # Xử lý client trong thread riêng (có thể dùng single-thread nếu cần)
                 client_thread = threading.Thread(
                     target=self.handle_client, 
                     args=(client_socket, client_address)
@@ -59,22 +52,18 @@ class KVSSServer:
             self.server_socket.close()
     
     def handle_client(self, client_socket, client_address):
-        """Xử lý một client connection"""
         try:
             while True:
-                # Nhận dữ liệu từ client
                 data = client_socket.recv(1024).decode('utf-8')
                 if not data:
                     break
                     
-                # Xử lý từng dòng lệnh
                 lines = data.strip().split('\n')
                 for line in lines:
                     if line.strip():
                         response = self.process_request(line.strip(), client_address)
                         client_socket.send((response + '\n').encode('utf-8'))
                         
-                        # Nếu là lệnh QUIT thì đóng kết nối
                         if line.strip().upper().endswith('QUIT'):
                             break
                             
@@ -85,12 +74,10 @@ class KVSSServer:
             self.logger.info(f"Đã đóng kết nối với {client_address}")
     
     def process_request(self, request, client_address):
-        """Xử lý một request và trả về response"""
         self.stats['served_requests'] += 1
         self.logger.info(f"Request từ {client_address}: {request}")
         
         try:
-            # Parse request theo format: <version> " " <command> [ " " <args> ]
             parts = request.split()
             
             if len(parts) < 2:
@@ -109,7 +96,6 @@ class KVSSServer:
         return response
     
     def execute_command(self, command, args):
-        """Thực thi lệnh cụ thể"""
         if command == "PUT":
             return self.handle_put(args)
         elif command == "GET":
@@ -124,14 +110,12 @@ class KVSSServer:
             return "400 BAD_REQUEST"
     
     def handle_put(self, args):
-        """Xử lý lệnh PUT key value"""
         if len(args) < 2:
             return "400 BAD_REQUEST"
         
         key = args[0]
-        value = ' '.join(args[1:])  # Value có thể chứa khoảng trắng
+        value = ' '.join(args[1:])
         
-        # Kiểm tra key không chứa khoảng trắng
         if ' ' in key:
             return "400 BAD_REQUEST"
         
@@ -141,7 +125,6 @@ class KVSSServer:
         return "201 CREATED" if is_new else "200 OK"
     
     def handle_get(self, args):
-        """Xử lý lệnh GET key"""
         if len(args) != 1:
             return "400 BAD_REQUEST"
         
@@ -152,7 +135,6 @@ class KVSSServer:
             return "404 NOT_FOUND"
     
     def handle_del(self, args):
-        """Xử lý lệnh DEL key"""
         if len(args) != 1:
             return "400 BAD_REQUEST"
         
@@ -164,7 +146,6 @@ class KVSSServer:
             return "404 NOT_FOUND"
     
     def handle_stats(self):
-        """Xử lý lệnh STATS"""
         uptime = int(time.time() - self.stats['start_time'])
         keys_count = len(self.store)
         served = self.stats['served_requests']
@@ -172,7 +153,6 @@ class KVSSServer:
         return f"200 OK keys={keys_count} uptime={uptime}s served={served}"
     
     def handle_quit(self):
-        """Xử lý lệnh QUIT"""
         return "200 OK bye"
 
 if __name__ == "__main__":

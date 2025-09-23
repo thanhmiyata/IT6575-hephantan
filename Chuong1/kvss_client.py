@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Mini Key-Value Store Service (KVSS) Client
-Tuân thủ Interface Specification KV/1.0
-"""
 
 import socket
 import sys
@@ -15,7 +11,6 @@ class KVSSClient:
         self.socket = None
     
     def connect(self):
-        """Kết nối tới KVSS Server"""
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((self.host, self.port))
@@ -26,18 +21,14 @@ class KVSSClient:
             return False
     
     def disconnect(self):
-        """Ngắt kết nối"""
         if self.socket:
             self.socket.close()
             print("Đã ngắt kết nối")
     
     def send_request(self, request):
-        """Gửi request và nhận response"""
         try:
-            # Gửi request
             self.socket.send((request + '\n').encode('utf-8'))
             
-            # Nhận response
             response = self.socket.recv(1024).decode('utf-8').strip()
             return response
         except Exception as e:
@@ -45,7 +36,6 @@ class KVSSClient:
             return None
     
     def interactive_mode(self):
-        """Chế độ tương tác - đọc từ stdin"""
         if not self.connect():
             return
         
@@ -58,11 +48,9 @@ class KVSSClient:
         try:
             while True:
                 try:
-                    # Đọc input từ user
                     user_input = input("KVSS> ").strip()
                     
                     if user_input.lower() == 'exit':
-                        # Gửi lệnh QUIT trước khi thoát
                         response = self.send_request("KV/1.0 QUIT")
                         if response:
                             print(f"Server: {response}")
@@ -71,7 +59,6 @@ class KVSSClient:
                     if not user_input:
                         continue
                     
-                    # Gửi request và in response
                     response = self.send_request(user_input)
                     if response:
                         print(f"Server: {response}")
@@ -89,7 +76,6 @@ class KVSSClient:
             self.disconnect()
     
     def batch_mode(self, commands):
-        """Chế độ batch - thực thi danh sách lệnh"""
         if not self.connect():
             return
         
@@ -119,7 +105,6 @@ def main():
     client = KVSSClient(args.host, args.port)
     
     if args.batch:
-        # Các lệnh test mẫu
         test_commands = [
             "KV/1.0 PUT user42 Alice",
             "KV/1.0 GET user42",

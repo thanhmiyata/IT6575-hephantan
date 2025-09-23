@@ -9,8 +9,6 @@ BTL/
 │   ├── 📄 kvss_server.py         # KVSS Server implementation (TCP multi-threaded)
 │   ├── 📄 kvss_client.py         # KVSS Client (interactive & batch modes)
 │   ├── 🧪 test_kvss.py           # Automated test suite (10 test cases)
-│   ├── 📋 manual_test_guide.md   # Manual testing guide (nc/telnet/Wireshark)
-│   ├── ❓ answers_interface_questions.md  # Interface design Q&A (5 questions)
 │   ├── 📊 kvss_server.log        # Server runtime logs (auto-generated)
 │   └── 🐍 venv/                  # Python virtual environment
 │
