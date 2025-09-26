@@ -6,7 +6,7 @@
 #include <pthread.h>
 
 #define INIT_BALANCE 50
-#define NUM_TRANS 100
+#define NUM_TRANS 10000
 
 int balance = INIT_BALANCE;
 int credits = 0;

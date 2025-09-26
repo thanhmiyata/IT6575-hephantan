@@ -12,10 +12,10 @@ void * incrementer(void * args){
     int i;
     for(i = 0; i < 100; i++){
         // check lock
-        while(lock > 0); // spin until unlocked
-        lock = 1; // set lock
-        shared++; // increment
-        lock = 0; // unlock
+        while(lock > 0);     // ← VẤN ĐỀ 1: Spin wait
+        lock = 1;            // ← VẤN ĐỀ 2: Set lock  
+        shared++;            // ← Critical section
+        lock = 0;            // ← VẤN ĐỀ 3: Unlock
     }
     return NULL;
 }

@@ -9,13 +9,12 @@ int shared = 10;
 
 void * fun(void * args){
     time_t start = time(NULL);
-    time_t end = start + 5; // run for 5 seconds
-    
-    // YOUR-CODE-HERE - Hoàn thiện phần này
+    time_t end = start + 5; // chạy trong 5 giây
+
     while (time(NULL) < end) {
-        shared++;
     }
-    
+    shared++;
+
     return NULL;
 }
 
