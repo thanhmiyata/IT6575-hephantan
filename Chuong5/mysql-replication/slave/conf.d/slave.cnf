@@ -1,0 +1,9 @@
+[mysqld]
+server-id=2
+relay-log=/var/lib/mysql/mysql-relay-bin.log
+log_bin=/var/lib/mysql/mysql-bin.log
+binlog_do_db=petdatabase
+read_only=OFF
+super_read_only=OFF
+local_infile=1
+bind-address=0.0.0.0

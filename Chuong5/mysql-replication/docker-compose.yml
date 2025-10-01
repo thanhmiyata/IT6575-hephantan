@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mysql-master:
+    image: mysql:8.0
+    platform: linux/arm64/v8
+    container_name: mysql-master
+    environment:
+      - MYSQL_ROOT_PASSWORD=MyRootPw!234
+      - MYSQL_USER=repl
+      - MYSQL_PASSWORD=ReplPw!234
+      - MYSQL_DATABASE=petdatabase
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./master/conf.d:/etc/mysql/conf.d
+      - ./dump:/dump
+    networks:
+      mysql-replication:
+        aliases:
+          - mysql-master
+
+  mysql-slave:
+    image: mysql:8.0
+    platform: linux/arm64/v8
+    container_name: mysql-slave
+    environment:
+      - MYSQL_ROOT_PASSWORD=MyRootPw!234
+      - MYSQL_USER=repl
+      - MYSQL_PASSWORD=ReplPw!234
+      - MYSQL_DATABASE=petdatabase
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./slave/conf.d:/etc/mysql/conf.d
+      - ./dump:/dump
+    networks:
+      mysql-replication:
+        aliases:
+          - mysql-slave
+
+networks:
+  mysql-replication:
+    driver: bridge
